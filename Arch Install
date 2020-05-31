@@ -1,0 +1,121 @@
+# Check boot mode
+ 	ls /sys/firmware/efi/efivars
+# Connect to internet with wire or wifi-menu
+# Verify
+	ping archlinux.org
+# Set time
+	timedatectl set-ntp true
+#------------------------------------
+# List disks
+	lsblk
+# Partition Disks
+	cfdisk
+# GPT on UEFI and DOS on BIOS(Legacy)
+ 
+# UEFI
+	sdX1 - 512M - EFI - (boot)
+	sdX2 - [SWAP] - Linux Filesystem (SWAP)
+	sdX3 - [REST of drive] - Linux Filesystem - (root)
+# BIOS
+	sdX1 - [SWAP] - Linux Filesystem (SWAP)
+	sdX2 - [REST of drive] - Linux Filesystem - (root)
+
+# UEFI Formatting drives
+	mkfs.fat -F 32 /dev/sdX1
+	mkswap /dev/sdX2
+	mkfs.ext4 /dev/sdX3
+# BIOS Formatting drives
+	mkswap /dev/sdX1
+	mkfs.ext4 /dev/sdX2
+#------------------------------------
+# Mounting
+	swapon (SWAP)
+	mount /dev/(root) /mnt
+# UEFI Only
+	mount /dev/(boot) /mnt/boot
+# If /mnt/boot is not found run 
+	# mkdir -p /mnt/boot
+#------------------------------------
+# Install Necesarry packages for system
+# Use linux-zen instead of linux if you the zen kernel
+# Use linux-lts instead of linux if you want the lts kernel
+# Use linux-hardened instead of linux if you want the hardened kernel
+	pacstrap /mnt base base-devel linux linux-firmware netctl networkmanager dialog dhcpcd dnsmasq openssh nano sudo git man pacman-contrib
+
+# Generate Fstab
+	genfstab -U /mnt >> /mnt/etc/fstab
+
+# Chroot into new system
+	arch-chroot /mnt
+#------------------------------------
+# Timezone
+	ln -sf /usr/share/zoneinfo/Region/City /etc/localtime
+# An example for eastern time is 
+# ln -sf /usr/share/zoneinfo/America/New_York /etc/localtime
+
+# Set Clock
+	hwclock --systohc
+#------------------------------------
+# Localization
+# Edit /etc/locale.gen and uncomment en_US.UTF-8 UTF-8 and other needed locales.
+# Generate locale by running
+	locale-gen
+# Create /etc/locale.conf with
+	nano /etc/locale.conf
+# Add your language to this file, US English would be 
+	LANG=en_US.UTF-8
+# Adjust accordinly
+#------------------------------------
+# Network configuration
+# Create /etc/hostname with
+	nano /etc/hostname
+# Add anyhostname of your choice to this file
+# Don't add anything else!
+
+# Create and edit /etc/hosts with
+	nano /etc/hosts
+# Add this text to the file
+#------------------------------------
+127.0.0.1	localhost
+::1		localhost
+127.0.1.1	(hostname from earlier)	(hostname from earlier)
+#------------------------------------
+# Generate new initramfs
+	mkinitcpio -P
+#------------------------------------
+# Set root password
+	passwd
+# Password will not show on screen
+
+# Install CPU ucode
+# The ucode will depend on your cpu if you can't identify it install both
+
+# Intel
+	pacman -S intel-ucode
+# AMD
+	pacman -S amd-ucode
+# For both
+	pacman -S amd-ucode intel-ucode
+#------------------------------------
+# Install grub package
+	pacman -S grub
+# If it asks to remove anything type "y" then hit enter
+
+# Install grub bootloader to disk
+# BIOS MBR/DOS
+# /dev/sdX is the whole drive NOT THE PARTITION
+	grub-install --target=i386-pc /dev/sdX
+# UEFI GPT
+	grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB
+
+# Configure GRUB
+	grub-mkconfig -o /boot/grub/grub.cfg
+#------------------------------------
+
+# You may now exit chroot and reboot and be left with a base arch system
+# and continue from their or you can make your changes now to save time
+# If you want to do these things now continue or just
+	exit
+	poweroff
+# To poweroff your device
+# To continue go to part 2

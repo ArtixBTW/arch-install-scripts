@@ -1,0 +1,132 @@
+# If you rebooted login with user "root" and the  password you set earlier
+
+# Connect to the internet
+	systemctl enable --now NetworkManager
+	systemctl enable --now dhcpcd
+# Reboot with if not still in chroot
+	reboot
+# With wifi use
+	wifi-menu
+# With ethernet do nothing
+# Verify with
+	ping archlinux.org
+# If your not connected try running
+	timedatectl set-ntp true
+#------------------------------------
+# Create your user
+	useradd -m -G wheel -s /bin/bash (username)
+# Password for user
+	passwd (username)
+# Give user permission to use sudo
+	EDITOR=nano visudo
+# Find line
+#%wheel ALL=(ALL) ALL
+# and change it to
+wheel ALL=(ALL) ALL
+# Press Ctrl + S (to save)then press Ctrl + X (to exit)
+#------------------------------------
+# Enable [multilib]
+# Multilib is need for 32-bit packages which are needed for some programs and nessecary for gaming
+	nano /etc/pacman.conf
+# Find lines
+
+#[multilib]
+#Include = /etc/pacman.d/mirrorlist
+
+# Remove the "#" in front of both of them
+# Save and exit
+# Then run this command
+	pacman -Syu
+# Install updates if any
+#------------------------------------
+# Install video drivers with Xorg
+# Run to check GPU
+	lspci | grep -e VGA -e 3D
+# For AMD/ATI check https://wiki.archlinux.org/index.php/Xorg#AMD for whether you need AMDGPU or ATI
+# AMD
+	pacman -S xf86-video-amdgpu mesa lib32-mesa
+# ATI
+	pacman -S xf86-video-ati mesa lib32-mesa
+# NVIDIA Opensource
+	pacman -S xf86-video-nouveau mesa lib32-mesa
+# NVIDIA Proprietry will not be covered here read https://wiki.archlinux.org/index.php/NVIDIA
+# for information on this
+#------------------------------------
+# Install a display manager
+# SDDM will be used here do to zero configuration being required
+	pacman -S sddm
+	systemctl enable sddm
+#------------------------------------
+# Install a desktop environment
+# You can choose from many desktop environments
+
+# KDE
+	pacman -S plasma kdeplasma-addons
+# Hit Enter for all of them
+# Install KDE applications
+# I only install Dolphin (File manager) and Konsole or Terminator (Terminals) (You only need one)
+# For only these run
+	pacman -S dolphin (konsole/terminator)
+# For all kde applications run
+	pacman -S kde-applications
+# Hit enter for all
+# Enable Display manager for KDE
+# You can use any display manager but for the sake of simplicity
+# and that SDDM is by the plasma team we will use SDDM for KDE
+	pacman -S sddm
+	systemctl enable sddm
+# From there you can reboot and be done
+
+# Xfce
+# Install DE with
+	pacman -S xfce4
+# Enter for all
+# Install Goodies (Plugins and other useful utilies)
+	pacman -S xfce4-goodies
+# XFCE is now installed you can now reboot with
+	reboot
+
+# Installing GNOME
+	pacman -S gnome gnome-shell
+# GNOME extras
+	pacman -S gnome-extra
+# Reboot
+	reboot
+
+# Installing Cinnamon
+	pacman -S cinnamon
+# Cinnamon Extras
+# Text Editor
+	pacman -S xed
+# Document viewer
+	pacman -S xreader
+# Reboot
+	reboot
+
+# Installing mate
+	pacman -S mate
+# Extras
+	pacman -S mate-extra
+# Reboot
+	reboot
+
+# Installing Budgie
+	pacman -S budgie-desktop
+# Also installing gnome pkg is reccomeneded
+	pacman -S gnome
+# Reboot
+	reboot
+#------------------------------------
+# Other DE's (For more info read here https://wiki.archlinux.org/index.php/Category:Desktop_environments)
+#------------------------------------
+# AUR Helper
+# Reguires you to be logged in to your user not root
+# Yay will be used here but others can be used
+	git clone https://aur.archlinux.org/yay.git
+	cd yay/
+	makepkg -si
+# You can then remove the yay folder with
+	cd ..
+	rm -rf yay/
+#------------------------------------
+# That is it happy tinkering!
