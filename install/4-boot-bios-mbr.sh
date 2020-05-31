@@ -25,7 +25,7 @@ echo "Select drive you're installing grub too
 this is not your partition choose the whole drive,
 please use the full name and select the drive Arch will be installed too
 Ex: For drive sda you would input /dev/sda"
-read $drive
+read drive
 
 
 # Install grub
