@@ -14,11 +14,6 @@ read kern
 echo
 echo
 
-#echo $ kern
-
-# For testing
-#yay -Q $kern
-
 # Install base
 pacstrap /mnt base base-devel $kern linux-firmware netctl networkmanager dialog dhcpcd dnsmasq openssh nano sudo git man pacman-contrib reflector
 

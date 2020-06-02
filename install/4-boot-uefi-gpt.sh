@@ -19,7 +19,7 @@ echo 'ucode chosen'
 pacman -S grub $cpu-ucode
 
 # Install grub
-pacman -S efibootmgr && grub-install --target=x86_64-efi --efi-directory=/boot
+pacman -S efibootmgr --noconfirm && grub-install --target=x86_64-efi --efi-directory=/boot
 # Gen new initramfs
 mkinitcpio -P
 # Update grub
