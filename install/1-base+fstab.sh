@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 echo '
 # 1 Is to install Arch they are the same with a different kernel
 # If using standard linux kernel input ' '

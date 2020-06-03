@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 echo Region && read reg
 echo
 echo City && read cit

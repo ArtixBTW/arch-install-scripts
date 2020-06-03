@@ -1,4 +1,4 @@
-#/bin/bash
+#/bin/sh
 # Ask for user
 echo 'Please enter wanted name of user'
 read wanuser
