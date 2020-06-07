@@ -19,4 +19,4 @@ nvidia"
 echo 'Please type your GPU'
 read gpu
 
-bash ignore-gpu/$gpu.sh
+sh ignore-gpu/$gpu.sh

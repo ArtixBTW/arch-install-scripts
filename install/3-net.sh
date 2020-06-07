@@ -10,8 +10,7 @@ read host
 
 echo $host >> /etc/hostname
 
-#echo # Static table lookup for hostnames.
-#echo # See hosts(5) for details.
+# Setup /etc/hosts
 echo 127.0.0.1  localhost >> /etc/hosts
 echo ::1                localhost >> /etc/hosts
 echo 127.0.1.1  $host   $host >> /etc/hosts
