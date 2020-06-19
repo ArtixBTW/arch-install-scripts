@@ -1,3 +1,6 @@
+# I'm moving to gitlab!
+Available here [https://gitlab.com/ArchB1W/]
+
 # arch-install-script
 Install script that is a big WIP.
 
